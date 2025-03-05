@@ -39,20 +39,20 @@ paths:
                   expires_in:
                     type: integer
   
-  /api/nota-spese:
+  /api_ales/nota-spese/{anno}/{mese}:
     get:
       summary: Recupera tutte le note spese per un determinato periodo anno/mese
       parameters:
         - name: anno
-          in: query
+          in: path
           required: true
           schema:
-            type: integer
+            type: string
         - name: mese
-          in: query
+          in: path
           required: false
           schema:
-            type: integer
+            type: string
       security:
         - bearerAuth: []
       responses:
@@ -79,7 +79,7 @@ paths:
                     trasferta:
                       type: string
   
-  /api/nota-spese/{matricola}:
+  /api_ales/nota-spese/{matricola}:
     get:
       summary: Recupera la nota spese di un dipendente
       parameters:
