@@ -1,4 +1,4 @@
-openapi: 3.0.0
+ropenapi: 3.0.0
 info:
   title: API Gestione Note Spese
   description: API REST per la gestione delle note spese con autenticazione Bearer Token.
@@ -41,16 +41,16 @@ paths:
   
   /api/nota-spese:
     get:
-      summary: Recupera tutte le note spese per un mese/anno
+      summary: Recupera tutte le note spese per un determinato periodo anno/mese
       parameters:
-        - name: mese
+        - name: anno
           in: query
           required: true
           schema:
             type: integer
-        - name: anno
+        - name: mese
           in: query
-          required: true
+          required: false
           schema:
             type: integer
       security:
