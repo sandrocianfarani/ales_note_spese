@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: API Gestione Note Spese
+  title: API Gestione Note Spese ALES
   description: API REST per la gestione delle note spese con autenticazione Bearer Token.
   version: 1.0.0
 
