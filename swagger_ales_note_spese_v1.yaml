@@ -5,7 +5,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: https://test.diquit.it/api_ales/
+  - url: https://test.diquit.it
     description: Server di produzione
 
 paths:
