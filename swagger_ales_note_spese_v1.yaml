@@ -9,7 +9,7 @@ servers:
     description: Server di produzione
 
 paths:
-  /api/auth/login:
+  /api_ales/login:
     post:
       summary: Autenticazione utente
       description: Permette di ottenere un Bearer Token per autenticare le richieste successive.
