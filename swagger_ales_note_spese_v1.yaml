@@ -1,4 +1,4 @@
-ropenapi: 3.0.0
+openapi: 3.0.0
 info:
   title: API Gestione Note Spese
   description: API REST per la gestione delle note spese con autenticazione Bearer Token.
@@ -8,9 +8,17 @@ servers:
   - url: https://test.diquit.it
     description: Server di produzione
 
+tags:
+  - name: Autenticazione
+    description: Endpoint per l'accesso e gestione token
+  - name: Note Spese
+    description: Operazioni sulle note spese
+
 paths:
   /api_ales/login:
     post:
+      tags:
+        - Autenticazione
       summary: Autenticazione utente
       description: Permette di ottenere un Bearer Token per autenticare le richieste successive.
       requestBody:
@@ -38,21 +46,23 @@ paths:
                     type: string
                   expires_in:
                     type: integer
-  
-  /api_ales/nota-spese/{anno}/{mese}:
+
+  /api_ales/nota-spese/{anno}:
     get:
-      summary: Recupera tutte le note spese per un determinato periodo anno/mese
+      tags:
+        - Note Spese
+      summary: Recupera tutte le note spese per un determinato anno, con mese opzionale
       parameters:
         - name: anno
           in: path
           required: true
           schema:
-            type: string
+            type: integer
         - name: mese
-          in: path
+          in: query
           required: false
           schema:
-            type: string
+            type: integer
       security:
         - bearerAuth: []
       responses:
@@ -78,13 +88,15 @@ paths:
                       type: string
                     trasferta:
                       type: string
-  
-  /api_ales/nota-spese/{matricola}:
+
+  /api_ales/nota-spese:
     get:
-      summary: Recupera la nota spese di un dipendente
+      tags:
+        - Note Spese
+      summary: Recupera la nota spese di un dipendente tramite matricola
       parameters:
         - name: matricola
-          in: path
+          in: query
           required: true
           schema:
             type: string
@@ -111,9 +123,11 @@ paths:
                     type: string
                   trasferta:
                     type: string
-  
-  /api/nota-spese/{id}/stato:
+
+  /api_ales/nota-spese/{id}/stato:
     put:
+      tags:
+        - Note Spese
       summary: Aggiorna lo stato di una nota spese
       parameters:
         - name: id
@@ -131,6 +145,8 @@ paths:
               type: object
               properties:
                 stato:
+                  type: string
+                trasferta:
                   type: string
       responses:
         '200':
