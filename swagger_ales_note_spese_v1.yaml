@@ -1,0 +1,157 @@
+openapi: 3.0.0
+info:
+  title: API Gestione Note Spese
+  description: API REST per la gestione delle note spese con autenticazione Bearer Token.
+  version: 1.0.0
+
+servers:
+  - url: https://api.example.com
+    description: Server di produzione
+
+paths:
+  /api/auth/login:
+    post:
+      summary: Autenticazione utente
+      description: Permette di ottenere un Bearer Token per autenticare le richieste successive.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Token generato con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                  expires_in:
+                    type: integer
+  
+  /api/nota-spese:
+    get:
+      summary: Recupera tutte le note spese per un mese/anno
+      parameters:
+        - name: mese
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: anno
+          in: query
+          required: true
+          schema:
+            type: integer
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Elenco delle note spese
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    matricola:
+                      type: string
+                    data:
+                      type: string
+                      format: date
+                    importo:
+                      type: number
+                    stato:
+                      type: string
+                    trasferta:
+                      type: string
+  
+  /api/nota-spese/{matricola}:
+    get:
+      summary: Recupera la nota spese di un dipendente
+      parameters:
+        - name: matricola
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Dettaglio della nota spese
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  matricola:
+                    type: string
+                  data:
+                    type: string
+                    format: date
+                  importo:
+                    type: number
+                  stato:
+                    type: string
+                  trasferta:
+                    type: string
+  
+  /api/nota-spese/{id}/stato:
+    put:
+      summary: Aggiorna lo stato di una nota spese
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stato:
+                  type: string
+      responses:
+        '200':
+          description: Stato aggiornato con successo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: integer
+                  stato:
+                    type: string
+                  trasferta:
+                    type: string
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
